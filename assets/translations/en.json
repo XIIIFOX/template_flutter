@@ -1,0 +1,23 @@
+{
+  "app_name": "Flutter Template",
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to Flutter Template",
+    "description": "This is a template project with Clean Architecture"
+  },
+  "example": {
+    "title": "Example",
+    "load_data": "Load Data",
+    "refresh": "Refresh",
+    "data_loaded": "Data loaded successfully",
+    "error_occurred": "An error occurred"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "ok": "OK"
+  }
+}
+

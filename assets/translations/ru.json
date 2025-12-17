@@ -1,0 +1,23 @@
+{
+  "app_name": "Flutter Шаблон",
+  "home": {
+    "title": "Главная",
+    "welcome": "Добро пожаловать в Flutter Шаблон",
+    "description": "Это шаблонный проект с Clean Architecture"
+  },
+  "example": {
+    "title": "Пример",
+    "load_data": "Загрузить данные",
+    "refresh": "Обновить",
+    "data_loaded": "Данные успешно загружены",
+    "error_occurred": "Произошла ошибка"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "retry": "Повторить",
+    "cancel": "Отмена",
+    "ok": "ОК"
+  }
+}
+
