@@ -46,7 +46,6 @@ class HomePage extends StatelessWidget {
                 icon: Icons.login,
                 color: Colors.blue,
                 onTap: () => context.go('/auth'),
-                tooltip: LocaleKeys.home_auth_module_tooltip.tr(),
               ),
               const SizedBox(height: 16),
               // Модуль счетчика
@@ -56,7 +55,6 @@ class HomePage extends StatelessWidget {
                 icon: Icons.add_circle_outline,
                 color: Colors.green,
                 onTap: () => context.go('/counter'),
-                tooltip: LocaleKeys.home_counter_module_tooltip.tr(),
               ),
               const SizedBox(height: 16),
               // Пример модуль
@@ -66,7 +64,6 @@ class HomePage extends StatelessWidget {
                 icon: Icons.list,
                 color: Colors.orange,
                 onTap: () => context.go('/example'),
-                tooltip: LocaleKeys.home_example_module_tooltip.tr(),
               ),
               const SizedBox(height: 32),
               // Статус авторизации
@@ -126,7 +123,6 @@ class _ModuleCard extends StatelessWidget {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  final String tooltip;
 
   const _ModuleCard({
     required this.title,
@@ -134,14 +130,11 @@ class _ModuleCard extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onTap,
-    required this.tooltip,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip,
-      child: Card(
+    return Card(
         elevation: 2,
         child: InkWell(
           onTap: onTap,
@@ -186,7 +179,6 @@ class _ModuleCard extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }
