@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:template_flutter/features/auth/presentation/pages/login_page.dart';
+import 'package:template_flutter/features/counter/presentation/pages/counter_page.dart';
 import 'package:template_flutter/features/example_feature/presentation/pages/example_page.dart';
 import 'package:template_flutter/features/home/presentation/pages/home_page.dart';
 
@@ -18,6 +20,17 @@ class AppRouter {
         name: 'example',
         builder: (context, state) => const ExamplePage(),
       ),
+      GoRoute(
+        path: '/auth',
+        name: 'auth',
+        builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        path: '/counter',
+        name: 'counter',
+        builder: (context, state) => const CounterPage(),
+      ),
     ],
   );
 }
+

@@ -28,3 +28,4 @@ class ValidationFailure extends Failure {
 class PermissionFailure extends Failure {
   const PermissionFailure([super.message = 'Permission denied']);
 }
+

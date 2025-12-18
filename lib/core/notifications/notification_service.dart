@@ -85,3 +85,4 @@ class NotificationService {
     return await _firebaseMessaging.getToken();
   }
 }
+

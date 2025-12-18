@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:template_flutter/core/error/failures.dart';
 
@@ -35,7 +36,7 @@ class ErrorDisplayWidget extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: Text('common.retry'.tr()),
               ),
             ],
           ],
@@ -44,3 +45,4 @@ class ErrorDisplayWidget extends StatelessWidget {
     );
   }
 }
+

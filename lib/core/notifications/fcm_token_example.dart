@@ -40,3 +40,4 @@ class FCMTokenExample {
     print('Токен должен быть отправлен на сервер: $token');
   }
 }
+

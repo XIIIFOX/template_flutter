@@ -14,3 +14,4 @@ class ExampleEntity extends Equatable {
   @override
   List<Object> get props => [id, title, description];
 }
+

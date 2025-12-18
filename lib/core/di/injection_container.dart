@@ -9,6 +9,19 @@ import 'package:template_flutter/core/network/api_client.dart';
 import 'package:template_flutter/core/network/network_info.dart';
 import 'package:template_flutter/core/notifications/notification_handler.dart';
 import 'package:template_flutter/core/notifications/notification_service.dart';
+import 'package:template_flutter/core/services/analytics_service.dart';
+import 'package:template_flutter/core/services/storage_service.dart';
+import 'package:template_flutter/core/services/theme_service.dart';
+import 'package:template_flutter/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:template_flutter/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:template_flutter/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:template_flutter/features/auth/domain/repositories/auth_repository.dart';
+import 'package:template_flutter/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:template_flutter/features/auth/domain/usecases/login_usecase.dart';
+import 'package:template_flutter/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:template_flutter/features/auth/domain/usecases/register_usecase.dart';
+import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:template_flutter/features/counter/presentation/bloc/counter_bloc.dart';
 import 'package:template_flutter/features/example_feature/data/datasources/example_remote_datasource.dart';
 import 'package:template_flutter/features/example_feature/data/repositories/example_repository_impl.dart';
 import 'package:template_flutter/features/example_feature/domain/repositories/example_repository.dart';
@@ -41,6 +54,17 @@ Future<void> initDependencies() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
+  // Services
+  getIt.registerLazySingleton<StorageService>(
+    () => StorageServiceImpl(getIt()),
+  );
+  getIt.registerLazySingleton<AnalyticsService>(
+    () => AnalyticsServiceImpl(),
+  );
+  getIt.registerLazySingleton<ThemeService>(
+    () => ThemeServiceImpl(getIt()),
+  );
+
   if (firebaseInitialized) {
     getIt.registerLazySingleton<NotificationHandler>(
       () => NotificationHandler(getIt()),
@@ -70,4 +94,34 @@ Future<void> initDependencies() async {
   getIt.registerFactory(
     () => ExampleBloc(getExampleData: getIt()),
   );
+
+  // Auth Feature
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(),
+  );
+  getIt.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(sharedPreferences: getIt()),
+  );
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      remoteDataSource: getIt(),
+      localDataSource: getIt(),
+      networkInfo: getIt(),
+    ),
+  );
+  getIt.registerLazySingleton(() => LoginUseCase(getIt()));
+  getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
+  getIt.registerLazySingleton(() => LogoutUseCase(getIt()));
+  getIt.registerLazySingleton(() => GetCurrentUserUseCase(getIt()));
+  getIt.registerFactory(
+    () => AuthBloc(
+      loginUseCase: getIt(),
+      registerUseCase: getIt(),
+      logoutUseCase: getIt(),
+      getCurrentUserUseCase: getIt(),
+    ),
+  );
+
+  // Counter Feature
+  getIt.registerFactory(() => CounterBloc());
 }

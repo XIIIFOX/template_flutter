@@ -15,3 +15,4 @@ class AppConstants {
   // Private constructor
   AppConstants._();
 }
+

@@ -5,3 +5,4 @@ import 'package:template_flutter/features/example_feature/domain/entities/exampl
 abstract class ExampleRepository {
   Future<Either<Failure, List<ExampleEntity>>> getExampleData();
 }
+

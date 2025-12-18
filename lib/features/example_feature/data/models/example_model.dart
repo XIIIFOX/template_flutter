@@ -31,3 +31,4 @@ class ExampleModel extends ExampleEntity {
     );
   }
 }
+

@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:template_flutter/core/di/injection_container.dart';
 import 'package:template_flutter/core/widgets/error_widget.dart';
+import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/loading_widget.dart';
+import 'package:template_flutter/core/widgets/theme_toggle.dart';
 import 'package:template_flutter/features/example_feature/domain/entities/example_entity.dart';
 import 'package:template_flutter/features/example_feature/presentation/bloc/example_bloc.dart';
 import 'package:template_flutter/features/example_feature/presentation/widgets/example_list_item.dart';
@@ -21,7 +24,15 @@ class ExamplePage extends StatelessWidget {
           getIt<ExampleBloc>()..add(const ExampleEvent.getExampleData()),
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.canPop() ? context.pop() : context.go('/'),
+          ),
           title: Text(LocaleKeys.example_title.tr()),
+          actions: const [
+            LanguageToggle(),
+            ThemeToggle(),
+          ],
         ),
         body: BlocBuilder<ExampleBloc, ExampleState>(
           builder: (context, state) {
