@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:template_flutter/core/di/injection_container.dart';
@@ -122,44 +123,50 @@ class _CounterContentState extends State<_CounterContent> {
       description: LocaleKeys.counter_description.tr(),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Информация о пользователе из модуля auth
               Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
+                child: Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: Column(
+                    children: [
                       Text(
                         LocaleKeys.counter_user.tr(),
-                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         widget.user.name,
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontSize: 18.sp,
+                            ),
                       ),
                       Text(
                         widget.user.email,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 14.sp,
+                            ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 48),
-            // Значение счетчика
-            BlocBuilder<CounterBloc, CounterState>(
-              builder: (context, state) {
-                return Text(
-                  '${state.value}',
-                  style: Theme.of(context).textTheme.displayLarge,
-                );
-              },
-            ),
-            const SizedBox(height: 48),
+              SizedBox(height: 48.h),
+              // Значение счетчика
+              BlocBuilder<CounterBloc, CounterState>(
+                builder: (context, state) {
+                  return Text(
+                    '${state.value}',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontSize: 72.sp,
+                        ),
+                  );
+                },
+              ),
+              SizedBox(height: 48.h),
             // Кнопки управления
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -175,10 +182,10 @@ class _CounterContentState extends State<_CounterContent> {
                           .add(const CounterEvent.decrement());
                     },
                     heroTag: 'decrement',
-                    child: const Icon(Icons.remove),
+                    child: Icon(Icons.remove, size: 24.sp),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Showcase(
                   key: _resetKey,
                   title: LocaleKeys.counter_reset.tr(),
@@ -190,10 +197,10 @@ class _CounterContentState extends State<_CounterContent> {
                           .add(const CounterEvent.reset());
                     },
                     heroTag: 'reset',
-                    child: const Icon(Icons.refresh),
+                    child: Icon(Icons.refresh, size: 24.sp),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Showcase(
                   key: _incrementKey,
                   title: LocaleKeys.counter_increment.tr(),
@@ -205,7 +212,7 @@ class _CounterContentState extends State<_CounterContent> {
                           .add(const CounterEvent.increment());
                     },
                     heroTag: 'increment',
-                    child: const Icon(Icons.add),
+                    child: Icon(Icons.add, size: 24.sp),
                   ),
                 ),
               ],

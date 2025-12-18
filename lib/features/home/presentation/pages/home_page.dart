@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/theme_toggle.dart';
@@ -22,23 +23,27 @@ class HomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 LocaleKeys.home_welcome.tr(),
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: 24.sp,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Text(
                 LocaleKeys.home_description.tr(),
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: 16.sp,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.h),
               // Модуль аутентификации
               _ModuleCard(
                 title: LocaleKeys.home_auth_module.tr(),
@@ -47,7 +52,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.blue,
                 onTap: () => context.go('/auth'),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               // Модуль счетчика
               _ModuleCard(
                 title: LocaleKeys.home_counter_module.tr(),
@@ -56,7 +61,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.green,
                 onTap: () => context.go('/counter'),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               // Пример модуль
               _ModuleCard(
                 title: LocaleKeys.home_example_module.tr(),
@@ -65,7 +70,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.orange,
                 onTap: () => context.go('/example'),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.h),
               // Статус авторизации
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
@@ -75,14 +80,16 @@ class HomePage extends StatelessWidget {
                       orElse: () => Colors.grey.shade100,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.w),
                       child: Column(
                         children: [
                           Text(
                             LocaleKeys.home_auth_status.tr(),
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontSize: 18.sp,
+                                ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           state.maybeWhen(
                             authenticated: (user) => Column(
                               children: [
@@ -91,10 +98,12 @@ class HomePage extends StatelessWidget {
                                   style:
                                       TextStyle(color: Colors.green.shade700),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4.h),
                                 Text(
                                   user.name,
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        fontSize: 14.sp,
+                                      ),
                                 ),
                               ],
                             ),
@@ -138,20 +147,20 @@ class _ModuleCard extends StatelessWidget {
         elevation: 2,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
-                  child: Icon(icon, color: color, size: 32),
+                  child: Icon(icon, color: color, size: 32.sp),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,20 +170,22 @@ class _ModuleCard extends StatelessWidget {
                         style:
                             Theme.of(context).textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18.sp,
                                 ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         description,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Colors.grey.shade600,
+                              fontSize: 14.sp,
                             ),
                       ),
                     ],
                   ),
                 ),
                 Icon(Icons.arrow_forward_ios,
-                    size: 16, color: Colors.grey.shade400),
+                    size: 16.sp, color: Colors.grey.shade400),
               ],
             ),
           ),

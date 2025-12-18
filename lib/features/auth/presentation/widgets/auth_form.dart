@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthForm extends StatefulWidget {
@@ -64,7 +65,7 @@ class _AuthFormState extends State<AuthForm> {
         );
       },
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24.w),
         child: Form(
           key: _formKey,
           child: Column(
@@ -72,18 +73,24 @@ class _AuthFormState extends State<AuthForm> {
             children: [
               Text(
                 _isLogin ? 'auth.login'.tr() : 'auth.register'.tr(),
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: 24.sp,
+                    ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: 32.h),
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'auth.email'.tr(),
-                  prefixIcon: const Icon(Icons.email),
-                  border: const OutlineInputBorder(),
+                  labelStyle: TextStyle(fontSize: 16.sp),
+                  prefixIcon: Icon(Icons.email, size: 24.sp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
+                style: TextStyle(fontSize: 16.sp),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'auth.email_required'.tr();
@@ -100,9 +107,13 @@ class _AuthFormState extends State<AuthForm> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: 'auth.name'.tr(),
-                    prefixIcon: const Icon(Icons.person),
-                    border: const OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 16.sp),
+                    prefixIcon: Icon(Icons.person, size: 24.sp),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
                   ),
+                  style: TextStyle(fontSize: 16.sp),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'auth.name_required'.tr();
@@ -110,17 +121,19 @@ class _AuthFormState extends State<AuthForm> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
               ],
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'auth.password'.tr(),
-                  prefixIcon: const Icon(Icons.lock),
+                  labelStyle: TextStyle(fontSize: 16.sp),
+                  prefixIcon: Icon(Icons.lock, size: 24.sp),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                      size: 24.sp,
                     ),
                     onPressed: () {
                       setState(() {
@@ -128,8 +141,11 @@ class _AuthFormState extends State<AuthForm> {
                       });
                     },
                   ),
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
+                style: TextStyle(fontSize: 16.sp),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'auth.password_required'.tr();
@@ -140,15 +156,21 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               ElevatedButton(
                 onPressed: _submit,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
-                child: Text('auth.submit'.tr()),
+                child: Text(
+                  'auth.submit'.tr(),
+                  style: TextStyle(fontSize: 16.sp),
+                ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               TextButton(
                 onPressed: () {
                   setState(() {
