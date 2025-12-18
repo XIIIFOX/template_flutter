@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:template_flutter/core/theme/theme_border_styles.dart';
+import 'package:template_flutter/core/theme/theme_colors.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
+import 'package:template_flutter/core/theme/theme_text_styles.dart';
 import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/theme_toggle.dart';
 import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
@@ -23,27 +26,23 @@ class HomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(24.w),
+          padding: EdgeInsets.all(ThemeDimensions.paddingL),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 16.h),
+              SizedBox(height: ThemeDimensions.spacingM),
               Text(
                 LocaleKeys.home_welcome.tr(),
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontSize: 24.sp,
-                    ),
+                style: ThemeTextStyles.headlineLarge(context),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: ThemeDimensions.spacingS),
               Text(
                 LocaleKeys.home_description.tr(),
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontSize: 16.sp,
-                    ),
+                style: ThemeTextStyles.bodyLarge(context),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 32.h),
+              SizedBox(height: ThemeDimensions.spacingXL),
               // Модуль аутентификации
               _ModuleCard(
                 title: LocaleKeys.home_auth_module.tr(),
@@ -52,7 +51,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.blue,
                 onTap: () => context.go('/auth'),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: ThemeDimensions.spacingM),
               // Модуль счетчика
               _ModuleCard(
                 title: LocaleKeys.home_counter_module.tr(),
@@ -61,7 +60,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.green,
                 onTap: () => context.go('/counter'),
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: ThemeDimensions.spacingM),
               // Пример модуль
               _ModuleCard(
                 title: LocaleKeys.home_example_module.tr(),
@@ -70,46 +69,47 @@ class HomePage extends StatelessWidget {
                 color: Colors.orange,
                 onTap: () => context.go('/example'),
               ),
-              SizedBox(height: 32.h),
+              SizedBox(height: ThemeDimensions.spacingXL),
               // Статус авторизации
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   return Card(
                     color: state.maybeWhen(
-                      authenticated: (_) => Colors.green.shade50,
-                      orElse: () => Colors.grey.shade100,
+                      authenticated: (_) => ThemeColors.successContainer,
+                      orElse: () =>
+                          ThemeColors.getSurfaceColorByBrightness(context),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(16.w),
+                      padding: EdgeInsets.all(ThemeDimensions.cardPadding),
                       child: Column(
                         children: [
                           Text(
                             LocaleKeys.home_auth_status.tr(),
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontSize: 18.sp,
-                                ),
+                            style: ThemeTextStyles.titleLarge(context),
                           ),
-                          SizedBox(height: 8.h),
+                          SizedBox(height: ThemeDimensions.spacingS),
                           state.maybeWhen(
                             authenticated: (user) => Column(
                               children: [
                                 Text(
                                   LocaleKeys.home_logged_in.tr(),
-                                  style:
-                                      TextStyle(color: Colors.green.shade700),
+                                  style: const TextStyle(
+                                    color: ThemeColors.successDark,
+                                  ),
                                 ),
-                                SizedBox(height: 4.h),
+                                SizedBox(height: ThemeDimensions.spacingXS),
                                 Text(
                                   user.name,
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                        fontSize: 14.sp,
-                                      ),
+                                  style: ThemeTextStyles.bodyMedium(context),
                                 ),
                               ],
                             ),
                             orElse: () => Text(
                               LocaleKeys.home_not_authorized.tr(),
-                              style: TextStyle(color: Colors.grey.shade700),
+                              style: TextStyle(
+                                color: ThemeColors
+                                    .getSecondaryTextColorByBrightness(context),
+                              ),
                             ),
                           ),
                         ],
@@ -144,52 +144,45 @@ class _ModuleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 2,
-        child: InkWell(
+      elevation: 2,
+      child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12.r),
-          child: Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Icon(icon, color: color, size: 32.sp),
+          borderRadius: ThemeBorderStyles.cardBorderRadius(context),
+        child: Padding(
+          padding: EdgeInsets.all(ThemeDimensions.cardPadding),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(ThemeDimensions.paddingM * 0.75),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(ThemeDimensions.radiusS),
                 ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.sp,
-                                ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        description,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.grey.shade600,
-                              fontSize: 14.sp,
-                            ),
-                      ),
-                    ],
-                  ),
+                child: Icon(icon, color: color, size: ThemeDimensions.iconL),
+              ),
+              SizedBox(width: ThemeDimensions.spacingM),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: ThemeTextStyles.cardTitle(context),
+                    ),
+                    SizedBox(height: ThemeDimensions.spacingXS),
+                    Text(
+                      description,
+                      style: ThemeTextStyles.cardSubtitle(context),
+                    ),
+                  ],
                 ),
-                Icon(Icons.arrow_forward_ios,
-                    size: 16.sp, color: Colors.grey.shade400),
-              ],
-            ),
+              ),
+              Icon(Icons.arrow_forward_ios,
+                  size: ThemeDimensions.iconXS, color: Colors.grey.shade400),
+            ],
           ),
         ),
+      ),
     );
   }
 }

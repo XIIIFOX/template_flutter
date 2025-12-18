@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/core/theme/theme_border_styles.dart';
 import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthForm extends StatefulWidget {
@@ -86,9 +87,12 @@ class _AuthFormState extends State<AuthForm> {
                   labelText: 'auth.email'.tr(),
                   labelStyle: TextStyle(fontSize: 16.sp),
                   prefixIcon: Icon(Icons.email, size: 24.sp),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
+                  border: ThemeBorderStyles.inputBorder(context),
+                  enabledBorder: ThemeBorderStyles.inputBorder(context),
+                  focusedBorder: ThemeBorderStyles.inputBorderFocused(context),
+                  errorBorder: ThemeBorderStyles.inputBorderError(context),
+                  focusedErrorBorder: ThemeBorderStyles.inputBorderError(context),
+                  disabledBorder: ThemeBorderStyles.inputBorderDisabled(context),
                 ),
                 style: TextStyle(fontSize: 16.sp),
                 validator: (value) {
@@ -109,9 +113,12 @@ class _AuthFormState extends State<AuthForm> {
                     labelText: 'auth.name'.tr(),
                     labelStyle: TextStyle(fontSize: 16.sp),
                     prefixIcon: Icon(Icons.person, size: 24.sp),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
+                    border: ThemeBorderStyles.inputBorder(context),
+                    enabledBorder: ThemeBorderStyles.inputBorder(context),
+                    focusedBorder: ThemeBorderStyles.inputBorderFocused(context),
+                    errorBorder: ThemeBorderStyles.inputBorderError(context),
+                    focusedErrorBorder: ThemeBorderStyles.inputBorderError(context),
+                    disabledBorder: ThemeBorderStyles.inputBorderDisabled(context),
                   ),
                   style: TextStyle(fontSize: 16.sp),
                   validator: (value) {
@@ -141,9 +148,12 @@ class _AuthFormState extends State<AuthForm> {
                       });
                     },
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
+                  border: ThemeBorderStyles.inputBorder(context),
+                  enabledBorder: ThemeBorderStyles.inputBorder(context),
+                  focusedBorder: ThemeBorderStyles.inputBorderFocused(context),
+                  errorBorder: ThemeBorderStyles.inputBorderError(context),
+                  focusedErrorBorder: ThemeBorderStyles.inputBorderError(context),
+                  disabledBorder: ThemeBorderStyles.inputBorderDisabled(context),
                 ),
                 style: TextStyle(fontSize: 16.sp),
                 validator: (value) {
