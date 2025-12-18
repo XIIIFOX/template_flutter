@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:template_flutter/core/error/failures.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
 
 class ErrorDisplayWidget extends StatelessWidget {
   final Failure failure;
@@ -16,7 +17,7 @@ class ErrorDisplayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(ThemeDimensions.paddingM),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

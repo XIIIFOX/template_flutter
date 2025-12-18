@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/core/theme/theme_border_styles.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
 import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthForm extends StatefulWidget {
@@ -66,7 +67,7 @@ class _AuthFormState extends State<AuthForm> {
         );
       },
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(24.w),
+        padding: EdgeInsets.all(ThemeDimensions.paddingL),
         child: Form(
           key: _formKey,
           child: Column(
@@ -170,7 +171,7 @@ class _AuthFormState extends State<AuthForm> {
               ElevatedButton(
                 onPressed: _submit,
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                  padding: EdgeInsets.symmetric(vertical: ThemeDimensions.spacingM),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),

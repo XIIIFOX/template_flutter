@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:template_flutter/core/di/injection_container.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
 import 'package:template_flutter/core/widgets/error_widget.dart';
 import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/loading_widget.dart';
@@ -110,7 +111,7 @@ class _ExampleListWithRefreshState extends State<_ExampleListWithRefresh> {
         enablePullDown: true,
         header: const WaterDropHeader(),
         child: ListView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(ThemeDimensions.paddingM),
           itemCount: widget.data.length,
           itemBuilder: (context, index) {
             return ExampleListItem(entity: widget.data[index]);

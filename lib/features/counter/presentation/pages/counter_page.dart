@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:template_flutter/core/di/injection_container.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
 import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/theme_toggle.dart';
 import 'package:template_flutter/features/auth/presentation/bloc/auth_bloc.dart';
@@ -122,15 +123,15 @@ class _CounterContentState extends State<_CounterContent> {
       title: LocaleKeys.counter_title.tr(),
       description: LocaleKeys.counter_description.tr(),
       child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(24.w),
+        child: Container(
+          padding: EdgeInsets.all(ThemeDimensions.paddingL),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Информация о пользователе из модуля auth
               Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
+                child: Container(
+                  padding: EdgeInsets.all(ThemeDimensions.cardPadding),
                   child: Column(
                     children: [
                       Text(

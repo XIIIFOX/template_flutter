@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:template_flutter/core/theme/theme_dimensions.dart';
 import 'package:template_flutter/core/widgets/error_widget.dart';
 import 'package:template_flutter/core/widgets/language_toggle.dart';
 import 'package:template_flutter/core/widgets/loading_widget.dart';
@@ -77,8 +78,8 @@ class _AuthenticatedView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
+      child: Container(
+        padding: EdgeInsets.all(ThemeDimensions.paddingL),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

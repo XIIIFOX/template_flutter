@@ -25,101 +25,99 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(ThemeDimensions.paddingL),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: ThemeDimensions.spacingM),
-              Text(
-                LocaleKeys.home_welcome.tr(),
-                style: ThemeTextStyles.headlineLarge(context),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: ThemeDimensions.spacingS),
-              Text(
-                LocaleKeys.home_description.tr(),
-                style: ThemeTextStyles.bodyLarge(context),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: ThemeDimensions.spacingXL),
-              // Модуль аутентификации
-              _ModuleCard(
-                title: LocaleKeys.home_auth_module.tr(),
-                description: LocaleKeys.home_auth_module_desc.tr(),
-                icon: Icons.login,
-                color: Colors.blue,
-                onTap: () => context.go('/auth'),
-              ),
-              SizedBox(height: ThemeDimensions.spacingM),
-              // Модуль счетчика
-              _ModuleCard(
-                title: LocaleKeys.home_counter_module.tr(),
-                description: LocaleKeys.home_counter_module_desc.tr(),
-                icon: Icons.add_circle_outline,
-                color: Colors.green,
-                onTap: () => context.go('/counter'),
-              ),
-              SizedBox(height: ThemeDimensions.spacingM),
-              // Пример модуль
-              _ModuleCard(
-                title: LocaleKeys.home_example_module.tr(),
-                description: LocaleKeys.home_example_module_desc.tr(),
-                icon: Icons.list,
-                color: Colors.orange,
-                onTap: () => context.go('/example'),
-              ),
-              SizedBox(height: ThemeDimensions.spacingXL),
-              // Статус авторизации
-              BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return Card(
-                    color: state.maybeWhen(
-                      authenticated: (_) => ThemeColors.successContainer,
-                      orElse: () =>
-                          ThemeColors.getSurfaceColorByBrightness(context),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(ThemeDimensions.cardPadding),
-                      child: Column(
-                        children: [
-                          Text(
-                            LocaleKeys.home_auth_status.tr(),
-                            style: ThemeTextStyles.titleLarge(context),
-                          ),
-                          SizedBox(height: ThemeDimensions.spacingS),
-                          state.maybeWhen(
-                            authenticated: (user) => Column(
-                              children: [
-                                Text(
-                                  LocaleKeys.home_logged_in.tr(),
-                                  style: const TextStyle(
-                                    color: ThemeColors.successDark,
-                                  ),
+        padding: EdgeInsets.all(ThemeDimensions.paddingL),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: ThemeDimensions.spacingM),
+            Text(
+              LocaleKeys.home_welcome.tr(),
+              style: ThemeTextStyles.headlineLarge(context),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: ThemeDimensions.spacingS),
+            Text(
+              LocaleKeys.home_description.tr(),
+              style: ThemeTextStyles.bodyLarge(context),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: ThemeDimensions.spacingXL),
+            // Модуль аутентификации
+            _ModuleCard(
+              title: LocaleKeys.home_auth_module.tr(),
+              description: LocaleKeys.home_auth_module_desc.tr(),
+              icon: Icons.login,
+              color: Colors.blue,
+              onTap: () => context.go('/auth'),
+            ),
+            SizedBox(height: ThemeDimensions.spacingM),
+            // Модуль счетчика
+            _ModuleCard(
+              title: LocaleKeys.home_counter_module.tr(),
+              description: LocaleKeys.home_counter_module_desc.tr(),
+              icon: Icons.add_circle_outline,
+              color: Colors.green,
+              onTap: () => context.go('/counter'),
+            ),
+            SizedBox(height: ThemeDimensions.spacingM),
+            // Пример модуль
+            _ModuleCard(
+              title: LocaleKeys.home_example_module.tr(),
+              description: LocaleKeys.home_example_module_desc.tr(),
+              icon: Icons.list,
+              color: Colors.orange,
+              onTap: () => context.go('/example'),
+            ),
+            SizedBox(height: ThemeDimensions.spacingXL),
+            // Статус авторизации
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return Card(
+                  color: state.maybeWhen(
+                    authenticated: (_) => ThemeColors.successContainer,
+                    orElse: () =>
+                        ThemeColors.getSurfaceColorByBrightness(context),
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.all(ThemeDimensions.cardPadding),
+                    child: Column(
+                      children: [
+                        Text(
+                          LocaleKeys.home_auth_status.tr(),
+                          style: ThemeTextStyles.titleLarge(context),
+                        ),
+                        SizedBox(height: ThemeDimensions.spacingS),
+                        state.maybeWhen(
+                          authenticated: (user) => Column(
+                            children: [
+                              Text(
+                                LocaleKeys.home_logged_in.tr(),
+                                style: const TextStyle(
+                                  color: ThemeColors.successDark,
                                 ),
-                                SizedBox(height: ThemeDimensions.spacingXS),
-                                Text(
-                                  user.name,
-                                  style: ThemeTextStyles.bodyMedium(context),
-                                ),
-                              ],
-                            ),
-                            orElse: () => Text(
-                              LocaleKeys.home_not_authorized.tr(),
-                              style: TextStyle(
-                                color: ThemeColors
-                                    .getSecondaryTextColorByBrightness(context),
                               ),
+                              SizedBox(height: ThemeDimensions.spacingXS),
+                              Text(
+                                user.name,
+                                style: ThemeTextStyles.bodyMedium(context),
+                              ),
+                            ],
+                          ),
+                          orElse: () => Text(
+                            LocaleKeys.home_not_authorized.tr(),
+                            style: TextStyle(
+                              color: ThemeColors
+                                  .getSecondaryTextColorByBrightness(context),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -148,7 +146,7 @@ class _ModuleCard extends StatelessWidget {
       child: InkWell(
           onTap: onTap,
           borderRadius: ThemeBorderStyles.cardBorderRadius(context),
-        child: Padding(
+        child: Container(
           padding: EdgeInsets.all(ThemeDimensions.cardPadding),
           child: Row(
             children: [
