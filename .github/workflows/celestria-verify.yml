@@ -17,7 +17,7 @@ concurrency:
 jobs:
   verify:
     name: Linux tests and preview evidence
-    if: github.event.label.name == 'celestria-verify-e8af0d5fd35bcc7d07e6cc6e753458f2'
+    if: github.event.label.name == 'celestria-verify-59b0750ee807c524ee0dfdbf8700bcc4'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
