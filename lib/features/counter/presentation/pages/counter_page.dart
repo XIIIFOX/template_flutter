@@ -109,7 +109,7 @@ class _CounterContentState extends State<_CounterContent> {
       _resetKey,
       _incrementKey,
     ];
-    ShowCaseWidget.of(context).startShowCase(showcaseKeys);
+    ShowcaseView.get().startShowCase(showcaseKeys);
   }
 
   void _startShowcase() {

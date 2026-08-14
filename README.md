@@ -40,32 +40,30 @@ lib/
 - **get_it** - Dependency Injection
 - **dartz** - Функциональная обработка ошибок
 - **dio** - HTTP клиент
-- **freezed** - Неизменяемые классы и union types
+- **equatable** - Value equality для BLoC-событий и состояний
 
 ## Начало работы
+
+Точная версия SDK и полный набор воспроизводимых проверок описаны в
+[`VERIFICATION.md`](VERIFICATION.md).
 
 1. Установите зависимости:
 ```bash
 flutter pub get
 ```
 
-2. Сгенерируйте код (для freezed и других code generators):
-```bash
-flutter pub run build_runner build --delete-conflicting-outputs
-```
-
-3. Настройте Firebase (опционально, если используете уведомления):
+2. Настройте Firebase (опционально, если используете уведомления):
    - Добавьте `google-services.json` для Android в `android/app/`
    - Добавьте `GoogleService-Info.plist` для iOS в `ios/Runner/`
 
-4. Запустите приложение:
+3. Запустите приложение:
 ```bash
 flutter run
 ```
 
 ## Важные замечания
 
-- После установки зависимостей (`flutter pub get`) необходимо запустить `build_runner` для генерации freezed файлов
+- BLoC union-типы реализованы нативными sealed-классами Dart и не требуют codegen
 - Для работы уведомлений требуется настройка Firebase (опционально)
 - Локализация настроена для английского и русского языков, файлы находятся в `assets/translations/`
 
@@ -107,4 +105,3 @@ flutter run
 ### BLoC
 
 См. пример в `features/example_feature/presentation/bloc/example_bloc.dart`
-

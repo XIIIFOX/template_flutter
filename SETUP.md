@@ -7,12 +7,7 @@
    flutter pub get
    ```
 
-2. **Сгенерируйте код (freezed, json_serializable и т.д.):**
-   ```bash
-   flutter pub run build_runner build --delete-conflicting-outputs
-   ```
-
-3. **Настройте Firebase (опционально, для уведомлений):**
+2. **Настройте Firebase (опционально, для уведомлений):**
    
    Для Android:
    - Скачайте `google-services.json` из Firebase Console
@@ -23,7 +18,7 @@
    - Скачайте `GoogleService-Info.plist` из Firebase Console
    - Добавьте в Xcode проект в папку `Runner`
 
-4. **Запустите приложение:**
+3. **Запустите приложение:**
    ```bash
    flutter run
    ```
@@ -48,7 +43,7 @@
 - **get_it** - Dependency Injection
 - **dartz** - Функциональная обработка ошибок (Either<Failure, Success>)
 - **dio** - HTTP клиент
-- **freezed** - Неизменяемые классы и union types
+- **equatable** - Value equality для BLoC-событий и состояний
 
 ## Примеры использования
 
@@ -78,5 +73,4 @@ Text('home.title'.tr())
 ### Уведомления
 
 См. `core/notifications/notification_service.dart`
-
 

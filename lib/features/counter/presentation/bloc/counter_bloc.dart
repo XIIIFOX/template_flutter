@@ -1,18 +1,20 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'counter_bloc.freezed.dart';
 part 'counter_event.dart';
 part 'counter_state.dart';
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(const CounterState.initial(0)) {
     on<CounterEvent>((event, emit) {
-      event.when(
-        increment: () => _onIncrement(emit),
-        decrement: () => _onDecrement(emit),
-        reset: () => _onReset(emit),
-      );
+      switch (event) {
+        case CounterIncrement():
+          _onIncrement(emit);
+        case CounterDecrement():
+          _onDecrement(emit);
+        case CounterReset():
+          _onReset(emit);
+      }
     });
   }
 
@@ -32,6 +34,5 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 }
 
 extension CounterStateExtension on CounterState {
-  int get value => when(initial: (value) => value);
+  int get value => switch (this) { CounterInitial(:final value) => value };
 }
-

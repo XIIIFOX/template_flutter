@@ -1,0 +1,128 @@
+# Managed by Celestria Gate. Version: 2026-08-13.3
+# Heavy verification is intentionally isolated from the Gate VPS.
+name: Celestria Linux verification
+run-name: Celestria verify ${{ github.event.label.name }} @ ${{ github.event.pull_request.head.sha }}
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: celestria-verify-${{ github.repository }}-${{ github.event.pull_request.number }}-${{ github.event.label.name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Linux tests and preview evidence
+    if: github.event.label.name == 'celestria-verify-9b19f2bcf5fa0a433d332d9b715bfe7c'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - name: Checkout exact task commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262e
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Install pinned Flutter SDK
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        with:
+          channel: stable
+          flutter-version: '3.44.7'
+          cache: true
+      - name: Resolve Flutter dependencies
+        id: dependency_generation
+        run: flutter pub get
+      - name: Stage generated dependency artifact
+        id: generated_artifact
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          staging="${RUNNER_TEMP:?}/celestria-generated-artifact"
+          rm -rf -- "$staging"
+          generated_changed=false
+          if [[ "${{ steps.dependency_generation.outcome }}" != "success" ]]; then
+            printf 'generated_changed=false\n' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ -n "$(git status --porcelain -- pubspec.lock)" ]]; then
+            if [[ ! -f pubspec.lock || -L pubspec.lock ]]; then
+              printf 'Generated lockfile pubspec.lock is not a regular file.\n' >&2
+              exit 1
+            fi
+            size="$(stat -c %s -- pubspec.lock)"
+            if [[ ! "$size" =~ ^[1-9][0-9]*$ ]] || (( size > 2097152 )); then
+              printf 'Generated lockfile pubspec.lock has an invalid size.\n' >&2
+              exit 1
+            fi
+            install -d -m 0755 "$staging/celestria-generated"
+            install -m 0644 -- pubspec.lock "$staging/celestria-generated/pubspec.lock"
+            generated_changed=true
+          fi
+          printf 'generated_changed=%s\n' "$generated_changed" >> "$GITHUB_OUTPUT"
+      - name: Upload generated dependency files
+        if: always() && steps.generated_artifact.outputs.generated_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: celestria-generated-files
+          path: ${{ runner.temp }}/celestria-generated-artifact/
+          if-no-files-found: error
+          retention-days: 1
+      - name: Analyze Dart and Flutter sources
+        # Existing warnings stay visible in the Actions log, but only analyzer
+        # errors block an otherwise unrelated task such as a dependency update.
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Run Flutter tests
+        run: flutter test
+      - name: Capture Flutter preview goldens when provided
+        shell: bash
+        run: |
+          mapfile -t previews < <(find test -type f -name '*_preview_test.dart' -print 2>/dev/null | sort)
+          if (( ${#previews[@]} == 0 )); then
+            printf 'No managed Flutter preview tests were provided.\n'
+            exit 0
+          fi
+          flutter test --update-goldens "${previews[@]}"
+          staging="${RUNNER_TEMP:?}/celestria-preview-artifact"
+          rm -rf -- "$staging"
+          install -d -m 0755 "$staging/celestria-preview"
+          count=0
+          total=0
+          while IFS= read -r -d '' source; do
+            if [[ ! -f "$source" || -L "$source" ]]; then
+              printf 'Preview source is not a regular file.\n' >&2
+              exit 1
+            fi
+            size="$(stat -c %s -- "$source")"
+            count=$((count + 1))
+            total=$((total + size))
+            if [[ ! "$size" =~ ^[1-9][0-9]*$ ]] || (( count > 12 || size > 2097152 || total > 8388608 )); then
+              printf 'Preview artifact exceeds its bounds.\n' >&2
+              exit 1
+            fi
+            install -D -m 0644 -- "$source" "$staging/celestria-preview/$source"
+          done < <(find -P test -type f -name '*.png' -print0 | sort -z)
+      - name: Upload preview screenshots
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: celestria-preview-screenshots
+          path: ${{ runner.temp }}/celestria-preview-artifact/
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Require generated lockfile to be applied to the branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- pubspec.lock
+          if [[ -n "$(git ls-files --others --exclude-standard -- pubspec.lock)" ]]; then
+            printf 'Generated lockfile pubspec.lock is not committed.\n' >&2
+            exit 1
+          fi
+

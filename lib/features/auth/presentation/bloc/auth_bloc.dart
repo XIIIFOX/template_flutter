@@ -1,5 +1,5 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:template_flutter/core/error/failures.dart';
 import 'package:template_flutter/features/auth/domain/entities/user_entity.dart';
 import 'package:template_flutter/features/auth/domain/usecases/get_current_user_usecase.dart';
@@ -7,7 +7,6 @@ import 'package:template_flutter/features/auth/domain/usecases/login_usecase.dar
 import 'package:template_flutter/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:template_flutter/features/auth/domain/usecases/register_usecase.dart';
 
-part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
@@ -24,12 +23,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.getCurrentUserUseCase,
   }) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
-      await event.when(
-        login: (email, password) => _onLogin(email, password, emit),
-        register: (email, password, name) => _onRegister(email, password, name, emit),
-        logout: () => _onLogout(emit),
-        checkAuthStatus: () => _onCheckAuthStatus(emit),
-      );
+      switch (event) {
+        case AuthLogin(:final email, :final password):
+          await _onLogin(email, password, emit);
+        case AuthRegister(:final email, :final password, :final name):
+          await _onRegister(email, password, name, emit);
+        case AuthLogout():
+          await _onLogout(emit);
+        case AuthCheckStatus():
+          await _onCheckAuthStatus(emit);
+      }
     });
   }
 
@@ -71,3 +74,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 }
 
+extension AuthStateMatching on AuthState {
+  T maybeWhen<T>({
+    T Function()? initial,
+    T Function()? loading,
+    T Function(UserEntity user)? authenticated,
+    T Function()? unauthenticated,
+    T Function(Failure failure)? error,
+    required T Function() orElse,
+  }) =>
+      switch (this) {
+        AuthInitial() when initial != null => initial(),
+        AuthLoading() when loading != null => loading(),
+        Authenticated(:final user) when authenticated != null =>
+          authenticated(user),
+        Unauthenticated() when unauthenticated != null => unauthenticated(),
+        AuthError(:final failure) when error != null => error(failure),
+        _ => orElse(),
+      };
+}
