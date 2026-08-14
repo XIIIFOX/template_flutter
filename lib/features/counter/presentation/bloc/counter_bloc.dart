@@ -1,7 +1,6 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'counter_bloc.freezed.dart';
 part 'counter_event.dart';
 part 'counter_state.dart';
 

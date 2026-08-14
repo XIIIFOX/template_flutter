@@ -1,5 +1,5 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:template_flutter/core/error/failures.dart';
 import 'package:template_flutter/features/auth/domain/entities/user_entity.dart';
 import 'package:template_flutter/features/auth/domain/usecases/get_current_user_usecase.dart';
@@ -7,7 +7,6 @@ import 'package:template_flutter/features/auth/domain/usecases/login_usecase.dar
 import 'package:template_flutter/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:template_flutter/features/auth/domain/usecases/register_usecase.dart';
 
-part 'auth_bloc.freezed.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 

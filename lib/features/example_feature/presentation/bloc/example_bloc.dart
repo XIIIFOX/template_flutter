@@ -1,11 +1,11 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:template_flutter/features/example_feature/domain/usecases/get_example_data.dart';
 
 import 'package:template_flutter/core/error/failures.dart';
 import 'package:template_flutter/features/example_feature/domain/entities/example_entity.dart';
 
-part 'example_bloc.freezed.dart';
 part 'example_event.dart';
 part 'example_state.dart';
 
