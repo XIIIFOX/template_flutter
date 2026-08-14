@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    ShowcaseView.register();
     _loadTheme();
     _themeService.themeModeStream.listen((mode) {
       if (mounted) {
@@ -77,6 +78,12 @@ class _MyAppState extends State<MyApp> {
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    ShowcaseView.get().unregister();
+    super.dispose();
   }
 
   Future<void> _loadTheme() async {
@@ -90,34 +97,30 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ShowCaseWidget(
-      builder: (context) {
-        return ScreenUtilInit(
-          designSize: const Size(375, 812), // iPhone X design size
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return MaterialApp.router(
-              title: LocaleKeys.app_name,
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-                useMaterial3: true,
-              ),
-              darkTheme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.blue,
-                  brightness: Brightness.dark,
-                ),
-                useMaterial3: true,
-              ),
-              themeMode: _themeMode,
-              routerConfig: AppRouter.router,
-            );
-          },
+    return ScreenUtilInit(
+      designSize: const Size(375, 812), // iPhone X design size
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp.router(
+          title: LocaleKeys.app_name,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blue,
+              brightness: Brightness.dark,
+            ),
+            useMaterial3: true,
+          ),
+          themeMode: _themeMode,
+          routerConfig: AppRouter.router,
         );
       },
     );

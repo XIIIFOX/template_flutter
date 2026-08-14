@@ -44,6 +44,9 @@ lib/
 
 ## Начало работы
 
+Точная версия SDK и полный набор воспроизводимых проверок описаны в
+[`VERIFICATION.md`](VERIFICATION.md).
+
 1. Установите зависимости:
 ```bash
 flutter pub get
@@ -107,4 +110,3 @@ flutter run
 ### BLoC
 
 См. пример в `features/example_feature/presentation/bloc/example_bloc.dart`
-

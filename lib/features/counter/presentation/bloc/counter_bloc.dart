@@ -8,11 +8,14 @@ part 'counter_state.dart';
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(const CounterState.initial(0)) {
     on<CounterEvent>((event, emit) {
-      event.when(
-        increment: () => _onIncrement(emit),
-        decrement: () => _onDecrement(emit),
-        reset: () => _onReset(emit),
-      );
+      switch (event) {
+        case CounterIncrement():
+          _onIncrement(emit);
+        case CounterDecrement():
+          _onDecrement(emit);
+        case CounterReset():
+          _onReset(emit);
+      }
     });
   }
 
@@ -32,6 +35,5 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 }
 
 extension CounterStateExtension on CounterState {
-  int get value => when(initial: (value) => value);
+  int get value => switch (this) { CounterInitial(:final value) => value };
 }
-

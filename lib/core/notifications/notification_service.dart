@@ -31,7 +31,7 @@ class NotificationService {
     );
 
     await _localNotifications.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: _handler.onNotificationTapped,
     );
 
@@ -73,10 +73,10 @@ class NotificationService {
     );
 
     await _localNotifications.show(
-      id,
-      title,
-      body,
-      details,
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: details,
       payload: payload,
     );
   }
@@ -85,4 +85,3 @@ class NotificationService {
     return await _firebaseMessaging.getToken();
   }
 }
-

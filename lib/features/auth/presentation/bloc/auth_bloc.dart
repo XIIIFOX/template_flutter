@@ -24,12 +24,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.getCurrentUserUseCase,
   }) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
-      await event.when(
-        login: (email, password) => _onLogin(email, password, emit),
-        register: (email, password, name) => _onRegister(email, password, name, emit),
-        logout: () => _onLogout(emit),
-        checkAuthStatus: () => _onCheckAuthStatus(emit),
-      );
+      switch (event) {
+        case AuthLogin(:final email, :final password):
+          await _onLogin(email, password, emit);
+        case AuthRegister(:final email, :final password, :final name):
+          await _onRegister(email, password, name, emit);
+        case AuthLogout():
+          await _onLogout(emit);
+        case AuthCheckStatus():
+          await _onCheckAuthStatus(emit);
+      }
     });
   }
 
@@ -71,3 +75,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 }
 
+extension AuthStateMatching on AuthState {
+  T maybeWhen<T>({
+    T Function()? initial,
+    T Function()? loading,
+    T Function(UserEntity user)? authenticated,
+    T Function()? unauthenticated,
+    T Function(Failure failure)? error,
+    required T Function() orElse,
+  }) =>
+      switch (this) {
+        AuthInitial() when initial != null => initial(),
+        AuthLoading() when loading != null => loading(),
+        Authenticated(:final user) when authenticated != null =>
+          authenticated(user),
+        Unauthenticated() when unauthenticated != null => unauthenticated(),
+        AuthError(:final failure) when error != null => error(failure),
+        _ => orElse(),
+      };
+}

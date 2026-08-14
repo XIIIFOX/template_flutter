@@ -14,10 +14,10 @@ class NotificationHandler {
 
   Future<void> onForegroundMessage(RemoteMessage message) async {
     await _localNotifications.show(
-      message.hashCode,
-      message.notification?.title ?? 'Notification',
-      message.notification?.body ?? '',
-      const NotificationDetails(
+      id: message.hashCode,
+      title: message.notification?.title ?? 'Notification',
+      body: message.notification?.body ?? '',
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'default_channel',
           'Default Channel',
@@ -37,4 +37,3 @@ class NotificationHandler {
     }
   }
 }
-
