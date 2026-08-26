@@ -61,6 +61,10 @@ flutter pub get
 flutter run
 ```
 
+## Проверка шаблона
+
+Шаблон готов для локального запуска после flutter pub get.
+
 ## Важные замечания
 
 - BLoC union-типы реализованы нативными sealed-классами Dart и не требуют codegen
